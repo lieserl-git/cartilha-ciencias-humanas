@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartilha — IA na Academia: Modos e Usos por Persona</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --ink:#1c1a17;
+    --paper:#f4f1ea;
+    --cream-soft:#efe9dc;
+
+    --student:#c84b31;
+    --student-dark:#8f331f;
+    --professor:#1f5c57;
+    --professor-dark:#123b37;
+    --institution:#a9761f;
+    --institution-dark:#7a5514;
+    --company:#4c3182;
+    --company-dark:#33205a;
+
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--ink);
+    line-height:1.5;
+  }
+
+  /* ---------- side nav (dossier tabs) ---------- */
+  #tabs{
+    position:fixed;
+    top:0; left:0;
+    height:100vh;
+    width:52px;
+    display:flex;
+    flex-direction:column;
+    z-index:100;
+    font-family:var(--mono);
+  }
+  #tabs a{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    text-decoration:none;
+    color:rgba(255,255,255,.85);
+    font-size:.7rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    border-bottom:1px solid rgba(0,0,0,.15);
+    transition:width .2s ease, letter-spacing .2s ease;
+  }
+  #tabs a span{ transform:rotate(180deg); }
+  #tabs a:hover{ width:64px; }
+  #tabs a[data-t="capa"]{ background:var(--ink); }
+  #tabs a[data-t="contexto"]{ background:#2c2822; }
+  #tabs a[data-t="estudante"]{ background:var(--student); }
+  #tabs a[data-t="professor"]{ background:var(--professor); }
+  #tabs a[data-t="instituicao"]{ background:var(--institution); }
+  #tabs a[data-t="empresa"]{ background:var(--company); }
+  #tabs a[data-t="comparativo"]{ background:#4a463c; }
+  #tabs a[data-t="fechamento"]{ background:var(--ink); }
+
+  main{ margin-left:52px; }
+  section{
+    min-height:100vh;
+    padding:80px 64px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.75rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    opacity:.75;
+    margin-bottom:18px;
+  }
+  h1,h2,h3{ font-family:var(--serif); font-weight:600; }
+
+  /* ---------- CAPA ---------- */
+  #capa{
+    background:
+      radial-gradient(circle at 85% 15%, rgba(200,75,49,.35), transparent 40%),
+      radial-gradient(circle at 15% 85%, rgba(76,49,130,.35), transparent 40%),
+      var(--ink);
+    color:var(--paper);
+    align-items:flex-start;
+  }
+  #capa h1{
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    line-height:1.02;
+    max-width:820px;
+  }
+  #capa h1 em{ font-style:italic; color:#e8ded0; opacity:.7; }
+  #capa .sub{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.3rem;
+    margin-top:22px;
+    max-width:560px;
+    opacity:.85;
+  }
+  .swatches{ display:flex; gap:10px; margin-top:56px; }
+  .swatch{ width:34px; height:34px; border-radius:50%; border:2px solid rgba(255,255,255,.2); }
+  #capa .meta{
+    margin-top:60px;
+    font-family:var(--mono);
+    font-size:.85rem;
+    opacity:.7;
+    border-top:1px solid rgba(255,255,255,.2);
+    padding-top:16px;
+    max-width:420px;
+  }
+
+  /* ---------- CONTEXTO ---------- */
+  #contexto{ background:#2c2822; color:var(--paper); }
+  #contexto .lead{
+    font-family:var(--serif);
+    font-size:1.5rem;
+    max-width:680px;
+    margin-bottom:40px;
+  }
+  .eixos{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    max-width:900px;
+  }
+  .eixo{
+    padding:20px 16px;
+    border-radius:10px;
+    font-family:var(--mono);
+    font-size:.85rem;
+  }
+  .eixo b{ display:block; font-family:var(--sans); font-size:.95rem; margin-bottom:6px; }
+  .eixo.e1{ background:rgba(200,75,49,.18); border:1px solid var(--student); }
+  .eixo.e2{ background:rgba(31,92,87,.22); border:1px solid var(--professor); }
+  .eixo.e3{ background:rgba(169,118,31,.22); border:1px solid var(--institution); }
+  .eixo.e4{ background:rgba(76,49,130,.25); border:1px solid var(--company); }
+
+  /* ---------- PERSONA PAGES ---------- */
+  .persona{ color:var(--paper); }
+  .persona .code{ font-family:var(--mono); font-size:.8rem; letter-spacing:.14em; opacity:.75; }
+  .persona h2{ font-size:clamp(2.2rem,5vw,3.4rem); margin:10px 0 6px; }
+  .persona .role{ font-family:var(--mono); font-size:.95rem; opacity:.85; margin-bottom:26px; }
+  .persona .frase{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.25rem;
+    max-width:640px;
+    margin-bottom:44px;
+    padding-left:18px;
+    border-left:3px solid rgba(255,255,255,.5);
+  }
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    max-width:1080px;
+  }
+  .card{
+    background:rgba(0,0,0,.18);
+    border-radius:12px;
+    padding:26px;
+  }
+  .card h3{ font-size:1.05rem; margin-bottom:14px; font-family:var(--sans); font-weight:600; text-transform:uppercase; letter-spacing:.04em; font-size:.85rem; opacity:.85; }
+  .card ul{ list-style:none; }
+  .card li{ margin-bottom:12px; }
+  .reco{ counter-reset:r; }
+  .reco li{ counter-increment:r; position:relative; padding-left:30px; }
+  .reco li::before{
+    content:counter(r);
+    position:absolute; left:0; top:0;
+    font-family:var(--mono); font-weight:600;
+    font-size:.85rem;
+    background:rgba(255,255,255,.15);
+    width:20px; height:20px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .print-box{
+    margin-top:36px;
+    max-width:1080px;
+    padding:20px 24px;
+    border-radius:10px;
+    background:rgba(0,0,0,.15);
+  }
+  .print-box .eyebrow{ opacity:.7; margin-bottom:10px; }
+
+  #persona-estudante{ background:linear-gradient(160deg, var(--student), var(--student-dark)); }
+  #persona-professor{ background:linear-gradient(160deg, var(--professor), var(--professor-dark)); }
+  #persona-instituicao{ background:linear-gradient(160deg, var(--institution), var(--institution-dark)); }
+  #persona-empresa{ background:linear-gradient(160deg, var(--company), var(--company-dark)); }
+
+  /* ---------- COMPARATIVO ---------- */
+  #comparativo{ background:var(--paper); color:var(--ink); }
+  table{ width:100%; border-collapse:collapse; max-width:1100px; font-size:.95rem; }
+  th{
+    font-family:var(--mono);
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    text-align:left;
+    padding:12px 14px;
+    border-bottom:2px solid var(--ink);
+  }
+  td{ padding:16px 14px; border-bottom:1px solid rgba(0,0,0,.12); vertical-align:top; }
+  tr td:first-child{ font-family:var(--serif); font-weight:600; }
+  .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:8px; }
+  .dot.student{ background:var(--student); }
+  .dot.professor{ background:var(--professor); }
+  .dot.institution{ background:var(--institution); }
+  .dot.company{ background:var(--company); }
+
+  /* ---------- FECHAMENTO ---------- */
+  #fechamento{ background:var(--ink); color:var(--paper); align-items:flex-start; }
+  #fechamento h2{ font-size:clamp(2rem,5vw,3rem); max-width:700px; }
+  #fechamento .sub{ font-family:var(--serif); font-style:italic; opacity:.8; margin-top:16px; max-width:560px; }
+  #fechamento .creditos{
+    margin-top:60px;
+    font-family:var(--mono);
+    font-size:.8rem;
+    opacity:.65;
+    border-top:1px solid rgba(255,255,255,.2);
+    padding-top:18px;
+  }
+
+  /* ---------- print button ---------- */
+  #print-btn{
+    position:fixed;
+    bottom:24px; right:24px;
+    z-index:200;
+    font-family:var(--mono);
+    font-size:.78rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    background:var(--paper);
+    color:var(--ink);
+    border:none;
+    padding:12px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+  #print-btn:hover{ background:#fff; }
+
+  @media print{
+    #tabs, #print-btn{ display:none; }
+    main{ margin-left:0; }
+    section{ min-height:auto; page-break-after:always; padding:40px; }
+  }
+
+  @media (max-width:820px){
+    #tabs{ display:none; }
+    main{ margin-left:0; }
+    section{ padding:56px 24px; }
+    .grid2{ grid-template-columns:1fr; }
+    .eixos{ grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav id="tabs">
+  <a href="#capa" data-t="capa"><span>Capa</span></a>
+  <a href="#contexto" data-t="contexto"><span>Contexto</span></a>
+  <a href="#persona-estudante" data-t="estudante"><span>01 · Estudante</span></a>
+  <a href="#persona-professor" data-t="professor"><span>02 · Professor(a)</span></a>
+  <a href="#persona-instituicao" data-t="instituicao"><span>03 · Instituição</span></a>
+  <a href="#persona-empresa" data-t="empresa"><span>04 · Empresa</span></a>
+  <a href="#comparativo" data-t="comparativo"><span>Comparativo</span></a>
+  <a href="#fechamento" data-t="fechamento"><span>Fechamento</span></a>
+</nav>
+
+<button id="print-btn" onclick="window.print()">Exportar / Imprimir PDF</button>
+
+<main>
+
+  <!-- CAPA -->
+  <section id="capa">
+    <div class="eyebrow">Cartilha · Trabalho de grupo</div>
+    <h1>IA na academia:<br><em>modos e usos</em><br>por persona</h1>
+    <p class="sub">Guia prático com perfis, riscos e recomendações — construído a partir de pesquisa bibliométrica, cartografia de controvérsias e aprofundamento com IA generativa</p>
+    <div class="swatches">
+      <div class="swatch" style="background:var(--student)"></div>
+      <div class="swatch" style="background:var(--professor)"></div>
+      <div class="swatch" style="background:var(--institution)"></div>
+      <div class="swatch" style="background:var(--company)"></div>
+    </div>
+    <div class="meta">Ciências Humanas e Sociais · UNIFEI · 2026</div>
+  </section>
+
+  <!-- CONTEXTO -->
+  <section id="contexto">
+    <div class="eyebrow">Abertura</div>
+    <p class="lead" style="font-family: 'Fraunces', serif; font-size: 1.2rem; line-height: 1.7; font-weight: 400;">
+A inteligência artificial generativa (IAG) já é uma ferramenta cotidiana no ambiente acadêmico — desde alunos que buscam agilidade na produção textual até professores que repensam critérios de avaliação, passando por instituições que precisam atualizar suas políticas de integridade e empresas que disputam a confiança desse ecossistema.<br><br>
+Este trabalho parte de uma premissa simples: a IA não é boa nem má em si mesma; seu impacto depende do usuário, da intenção e da mediação pedagógica. Para escapar de visões polarizadas, adotamos a metodologia de personas — quatro perfis típicos que emergiram de nossa pesquisa bibliométrica e de uma cartografia de controvérsias sobre o tema.<br><br>
+A seguir, apresentamos uma cartilha prática, construída em diálogo com ferramentas de IA, que não apenas descreve cada persona, mas também oferece recomendações situadas de uso responsável. O objetivo não é dar respostas prontas, mas provocar perguntas: <strong>que tipo de usuário de IA queremos ser?</strong>
+</p>
+    <div class="eixos">
+      <div class="eixo e1"><b>Integridade acadêmica</b>plágio, autoria, originalidade</div>
+      <div class="eixo e2"><b>Ética e responsabilidade</b>uso responsável, transparência</div>
+      <div class="eixo e3"><b>Vieses algorítmicos</b>desinformação, reprodução de estereótipos</div>
+      <div class="eixo e4"><b>Autonomia cognitiva</b>pensamento crítico, dependência</div>
+    </div>
+  </section>
+
+  <!-- PERSONA 01 — ESTUDANTE -->
+  <section id="persona-estudante" class="persona">
+    <div class="code">PERFIL 01 / 04</div>
+    <h2>Pedro Henrique Alves</h2>
+    <div class="role">Estudante Estrategista · Engenharia de Controle e Automação, 22 anos</div>
+    <p class="frase">"Não busco respostas prontas, mas sim um filtro para o caos informacional — quero que a IA me devolva o tempo e a clareza mental para que eu possa pensar com profundidade, sem perder minha autonomia intelectual e minha responsabilidade ética sobre o conhecimento que produzo."</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>O que busca</h3>
+        <ul>
+          <li>Curadoria inteligente e seletiva: Um mecanismo que faça a triagem inicial da literatura científica, extraindo o essencial de dezenas de artigos e poupando-lhe as longas horas perdidas em buscas cegas no Google Scholar.</li>
+          <li>Automação do trabalho mecânico: Delegar à IA tarefas operacionais e desgastantes, formatação ABNT/LaTeX, revisão gramatical, síntese de resumos e geração de estruturas iniciais, para reservar sua energia cognitiva ao que realmente importa: interpretar dados, refutar hipóteses e construir argumentos originais.</li>
+          <li>Diretrizes éticas e epistemológicas claras: Ferramentas e protocolos institucionais que o ajudem a identificar e corrigir vieses algorítmicos (especialmente a hegemonia do Norte Global), garantindo que sua produção científica dialogue com a realidade brasileira e com autores do Sul Global.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>O que teme / arrisca</h3>
+        <ul>
+          <li>Atrofia do pensamento crítico por delegação cognitiva: O medo mais profundo de Pedro é que, ao confiar cegamente nas respostas prontas da IA, seu cérebro "desaprenda" a fazer o caminho árduo da construção do raciocínio — tornando-o um mero revisor de textos gerados por máquinas.</li>
+          <li>Plágio inconsciente e perda da autoria: Ele teme que, ao pedir reescritas e paráfrases para a IA, a fronteira entre o que é seu pensamento original e o que é output algorítmico se dissolva, expondo-o a acusações de má conduta acadêmica sem que ele tenha tido má intenção.</li>
+          <li>Reprodução passiva de desigualdades epistêmicas: Como engenheiro atento às realidades locais, Pedro teme que a IA — treinada majoritariamente com dados anglo-saxões — o faça citar automaticamente autores estrangeiros e ignore soluções e metodologias desenvolvidas no Brasil, aprofundando a dependência intelectual do Sul Global.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card reco" style="max-width:1080px; margin-top:28px;">
+      <h3>Recomendações de uso responsável</h3>
+      <ul>
+        <li>Adote a "Regra dos 3 C's vs. 3 C's": Use a IA estritamente para Coletar, Compilar e Corrigir (tarefas mecânicas). Jamais a use para Criar, Criticar e Contextualizar (tarefas que exigem seu cérebro humano). Internalize essa fronteira como um compromisso ético pessoal.</li>
+        <li>Domine o fluxo "NotebookLM + Elicit + Claude": Comece a curadoria com o Elicit (para encontrar lacunas de pesquisa), organize os PDFs no NotebookLM (para cruzamento de informações) e finalize a escrita/reescrita com o Claude (sempre exigindo que ele marque em negrito as alterações semânticas feitas no seu texto original).</li>
+        <li>Aplique o "Prompt Diamante" como filtro de qualidade: Em toda interação, finalize com: "Agora, aponte os 2 maiores pontos fracos da sua própria resposta e como um crítico os refutaria." Isso força a IA a se autocorrigir e estimula Pedro a ler o resultado com olhos de juiz, não de espectador.</li>
+        <li>Implemente a "Rotina Híbrida" de horários: Tarde (pico de energia) = ZERO IA para resolver listas de exercícios, programar e estruturar teses. Noite (baixa energia) = IA MÁXIMA apenas para tarefas robóticas (formatar, revisar gramática, padronizar referências). Jamais peça para a IA "pensar" por ele quando ele estiver cansado — isso é a porta de entrada para a atrofia cognitiva.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PERSONA 02 — PROFESSOR -->
+  <section id="persona-professor" class="persona">
+    <div class="code">PERFIL 02 / 04</div>
+    <h2>[Aguardando contribuição do colega]</h2>
+    <div class="role">Professor(a) Crítico(a) · [área de atuação]</div>
+    <p class="frase">[Frase-síntese gerada pela IA sobre a principal preocupação pedagógica desta persona]</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>O que busca</h3>
+        <ul>
+          <li>[item 1 — ex: manter a autoria e o pensamento crítico dos alunos]</li>
+          <li>[item 2]</li>
+          <li>[item 3]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>O que teme / arrisca</h3>
+        <ul>
+          <li>[risco 1 — ex: plágio disfarçado]</li>
+          <li>[risco 2 — ex: superficialidade nos trabalhos]</li>
+          <li>[risco 3]</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card reco" style="max-width:1080px; margin-top:28px;">
+      <h3>Recomendações de uso responsável</h3>
+      <ul>
+        <li>[recomendação 1 — ex: reformular critérios de avaliação]</li>
+        <li>[recomendação 2]</li>
+        <li>[recomendação 3]</li>
+        <li>[recomendação 4]</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PERSONA 03 — INSTITUIÇÃO -->
+  <section id="persona-instituicao" class="persona">
+    <div class="code">PERFIL 03 / 04</div>
+    <h2>[Aguardando contribuição do colega]</h2>
+    <div class="role">Instituição Reguladora · [pública/privada, porte]</div>
+    <p class="frase">[Frase-síntese gerada pela IA sobre o principal desafio institucional]</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>O que busca</h3>
+        <ul>
+          <li>[item 1 — ex: equilíbrio entre inovação e integridade]</li>
+          <li>[item 2]</li>
+          <li>[item 3]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>O que teme / arrisca</h3>
+        <ul>
+          <li>[risco 1 — ex: desigualdade de acesso entre alunos]</li>
+          <li>[risco 2 — ex: perda de credibilidade científica]</li>
+          <li>[risco 3]</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card reco" style="max-width:1080px; margin-top:28px;">
+      <h3>Recomendações / diretrizes práticas</h3>
+      <ul>
+        <li>[recomendação 1]</li>
+        <li>[recomendação 2]</li>
+        <li>[recomendação 3]</li>
+        <li>[recomendação 4]</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PERSONA 04 — EMPRESA -->
+  <section id="persona-empresa" class="persona">
+    <div class="code">PERFIL 04 / 04</div>
+    <h2>[Aguardando contribuição do colega]</h2>
+    <div class="role">Empresa de Tecnologia · [tipo de produto]</div>
+    <p class="frase">[Frase-síntese gerada pela IA sobre o principal interesse comercial desta persona]</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>O que busca</h3>
+        <ul>
+          <li>[item 1 — ex: expansão de mercado e coleta de dados]</li>
+          <li>[item 2]</li>
+          <li>[item 3]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Tensões éticas</h3>
+        <ul>
+          <li>[tensão 1 — ex: privacidade e vigilância]</li>
+          <li>[tensão 2 — ex: dependência de plataforma]</li>
+          <li>[tensão 3]</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card reco" style="max-width:1080px; margin-top:28px;">
+      <h3>Responsabilidades recomendadas</h3>
+      <ul>
+        <li>[recomendação 1]</li>
+        <li>[recomendação 2]</li>
+        <li>[recomendação 3]</li>
+        <li>[recomendação 4]</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COMPARATIVO -->
+  <section id="comparativo">
+    <div class="eyebrow">Síntese</div>
+    <h2 style="margin-bottom:30px;">Quadro comparativo das personas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Persona</th>
+          <th>Motivação principal</th>
+          <th>Maior risco</th>
+          <th>Recomendação-chave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="dot student"></span>Estudante</td>
+          <td>"Usar a IA como exoesqueleto cognitivo para organizar o caos e poupar energia, dedicando o cérebro à análise crítica e à criação autoral."</td>
+          <td>Delegação cognitiva excessiva que leva à atrofia do pensamento crítico e à perda da autonomia intelectual, transformando-o de pesquisador em mero revisor de outputs.</td>
+          <td>Nunca usar a IA para gerar conteúdo original. Aplicar rigorosamente a técnica "Leia, Feche, Escreva": leia o resumo da IA, feche a aba e reescreva tudo com suas palavras, de memória. Se você não consegue reproduzir a ideia sem olhar, você ainda não a aprendeu — e a IA está pensando no seu lugar.</td>
+        </tr>
+        <tr>
+          <td><span class="dot professor"></span>Professor(a)</td>
+          <td>[preencher]</td>
+          <td>[preencher]</td>
+          <td>[preencher]</td>
+        </tr>
+        <tr>
+          <td><span class="dot institution"></span>Instituição</td>
+          <td>[preencher]</td>
+          <td>[preencher]</td>
+          <td>[preencher]</td>
+        </tr>
+        <tr>
+          <td><span class="dot company"></span>Empresa</td>
+          <td>[preencher]</td>
+          <td>[preencher]</td>
+          <td>[preencher]</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FECHAMENTO -->
+  <section id="fechamento">
+    <div class="eyebrow">Fechamento</div>
+    <h2>A inteligência artificial na academia é um espelho das nossas escolhas.</h2>
+    <p class="sub">"Se há uma lição que emerge da cartografia de controvérsias e da construção colaborativa destas quatro personas, é que a IA generativa potencializa aquilo que já somos: pode tornar o estudante mais autônomo ou mais dependente; o professor, mais crítico ou mais sobrecarregado; a instituição, mais inclusiva ou mais excludente. Ao utilizarmos as próprias IAs (Gemini e DeepSeek) como ferramentas metodológicas para construir esta cartilha, experimentamos na prática a diferença entre usar a IA como muleta e usá-la como parceira de curadoria. O convite final, portanto, não é para dominar a ferramenta, mas para não nos deixarmos dominar por ela."</p>
+    <div class="creditos">Metodologia: bibliometria (SciELO, Google Scholar, Semantic Scholar) + cartografia de controvérsias (VOSviewer) + personas aprofundadas com IA generativa (Gemini/DeepSeek) · 2022014525 2025012954 2023013326 2025017039 · Ciências Humanas e Sociais · 2026</div>
+  </section>
+
+</main>
+
+</body>
+</html>
