@@ -267,8 +267,8 @@
     border-bottom:2px solid var(--ink);
   }
   td{ padding:16px 14px; border-bottom:1px solid rgba(0,0,0,.12); vertical-align:top; }
-  tr td:first-child{ font-family:var(--serif); font-weight:600; }
-  .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:8px; }
+  tr td:first-child{ font-family:var(--serif); font-weight:600; vertical-align:middle; }
+  .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:8px; vertical-align:middle; }
   .dot.student{ background:var(--student); }
   .dot.professor{ background:var(--professor); }
   .dot.institution{ background:var(--institution); }
@@ -456,7 +456,7 @@ A seguir, apresentamos uma cartilha prática, construída em diálogo com ferram
     <div class="code">PERFIL 03 / 04</div>
     <h2> Dra. Célia Regina Mendes</h2>
     <div class="role"> Coordenadora do Comitê Institucional de Inteligência Artificial e Inovação Pedagógica – Professora Titular do Departamento de Ciências Sociais Aplicadas, 52 anos </div>
-    <p class="frase"> A IA não pode ser um 'faz-de-conta' que maquia o saber; precisa ser uma 'ponte de ferro' que sustente o peso da nossa realidade desigual, levando o conhecimento adiante sem deixar ninguém para trás no viés do algoritmo.</p>
+    <p class="frase"> "A IA não pode ser um 'faz-de-conta' que maquia o saber; precisa ser uma 'ponte de ferro' que sustente o peso da nossa realidade desigual, levando o conhecimento adiante sem deixar ninguém para trás no viés do algoritmo."</p>
     <div class="grid2">
       <div class="card">
         <h3>O que busca</h3>
@@ -537,13 +537,16 @@ A seguir, apresentamos uma cartilha prática, construída em diálogo com ferram
       </thead>
       <tbody>
         <tr>
-          <td><span class="dot student"></span>Estudante</td>
+          <td>
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <span class="dot student"></span>Estudante</span>
+                </td>
           <td>"Usar a IA como exoesqueleto cognitivo para organizar o caos e poupar energia, dedicando o cérebro à análise crítica e à criação autoral."</td>
           <td>Delegação cognitiva excessiva que leva à atrofia do pensamento crítico e à perda da autonomia intelectual, transformando-o de pesquisador em mero revisor de outputs.</td>
           <td>Nunca usar a IA para gerar conteúdo original. Aplicar rigorosamente a técnica "Leia, Feche, Escreva": leia o resumo da IA, feche a aba e reescreva tudo com suas palavras, de memória. Se você não consegue reproduzir a ideia sem olhar, você ainda não a aprendeu — e a IA está pensando no seu lugar.</td>
         </tr>
         <tr>
-          <td><span class="dot professor"></span>Professor(a)</td>
+          <td><span class="dot professor"></span>Professor</td>
           <td>"Preservar a legitimidade da autoria científica, o desenvolvimento da autonomia intelectual e o rigor ético nos processos avaliativos do ensino superior."</td>
           <td>A delegação cognitiva acrítica e a proliferação do plágio velado, culminando no esvaziamento reflexivo e na obsolescência do pensamento analítico discente.</td>
           <td>Instituir o princípio da transparência metodológica total, circunscrevendo a Inteligência Artificial às fases de curadoria e organização de dados, garantindo a soberania humana na análise final.</td>
